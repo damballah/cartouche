@@ -4,7 +4,7 @@
 
 Tu glisses une photo (ton chat, une pieuvre en plastique, un dessin de ton neveu, un coucher de soleil…), tu ajoutes si tu veux un petit bout d'histoire, et une IA te fabrique un mini-jeu web complet, jouable tout de suite. Titre, score, vies, niveaux, musique, écran de game over : tout y est.
 
-👉 **[Essayer Cartouche](https://TON-PSEUDO.github.io/cartouche/)**
+👉 **[Essayer Cartouche](https://damballah.github.io/cartouche/)**
 
 ---
 
