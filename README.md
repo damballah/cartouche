@@ -4,7 +4,7 @@
 
 Tu glisses une photo (ton chat, une pieuvre en plastique, un dessin de ton neveu, un coucher de soleil…), tu ajoutes si tu veux un petit bout d'histoire, et une IA te fabrique un mini-jeu web complet, jouable tout de suite. Titre, score, vies, niveaux, musique, écran de game over : tout y est.
 
-👉 **[Essayer Cartouche](https://damballah.github.io/cartouche/)**
+👉 **[Essayer Cartouche](https://TON-PSEUDO.github.io/cartouche/)**
 
 ---
 
@@ -89,7 +89,8 @@ Le `index.html` du .zip est autonome. Tu peux l'envoyer tel quel, ou le déposer
 | Bandeau rouge « aperçu » | La page tourne dans un aperçu qui bloque tout. Ouvre-la directement dans ton navigateur. |
 | Le jeu ne s'ouvre pas | Ton navigateur bloque les pop-up : autorise-les pour Cartouche. |
 | L'onglet du jeu est vide après rechargement | Le jeu vit dans l'onglet Cartouche. Si tu l'as fermé, le jeu est parti : utilise le .zip pour garder tes créations. |
-| La manette ne répond pas | Appuie sur un bouton une fois le jeu ouvert. Les navigateurs ne signalent la manette qu'après une première pression. |
+| La manette ne répond pas | Clique une fois dans la page du jeu, puis appuie sur un bouton de la manette. Les navigateurs ne signalent la manette qu'après une première pression. Le message « Manette prête » confirme qu'elle est prise en charge. |
+| La manette est détectée mais ne contrôle rien | Le jeu a été fabriqué avec une ancienne version de Cartouche. Refabrique-le avec la version actuelle. |
 
 ## 🧱 Sous le capot
 

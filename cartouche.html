@@ -257,7 +257,7 @@ footer .credits{margin-top:1rem;padding-top:1rem;border-top:2px solid var(--line
   <p>Ta clé et ton image partent uniquement vers l’IA choisie, directement depuis ton navigateur. Rien n’est stocké ailleurs.</p>
   <p class="credits">© 2026 Cartouche, imaginé par Damballah Oueddo.<br>
     Logiciel libre sous <a href="https://github.com/TON-PSEUDO/cartouche/blob/main/LICENSE" target="_blank" rel="noopener">licence MIT</a>.
-    <a href="https://github.com/damballah/cartouche" target="_blank" rel="noopener">Code source sur GitHub</a>.</p>
+    <a href="https://github.com/TON-PSEUDO/cartouche" target="_blank" rel="noopener">Code source sur GitHub</a>.</p>
 </footer>
 
 <script>
@@ -808,7 +808,7 @@ ${genre ? `The genre is imposed: "${genre.id}" (${genre.en}). Adapt the image to
 The game must be understandable in 5 seconds, fun from the first second, playable in 1 to 5 minute sessions, visually rich, and must reuse the image itself visually.
 MAIN CHARACTER: if the image shows a clear subject (person, animal, creature, plant, object, vehicle...), especially one that is prominent or roughly centered, it IS the hero of the game, unless the user's text clearly says otherwise. Identify precisely what kind of being or thing it is, give its tight bounding box so it can be cut out of the image, and the boxes of its movable parts (head, arms, legs, tail, wings, fins, tentacles, wheels...) with their rotation pivot. If there is no clear subject (landscape, pattern, abstract art), set hero.from_image to false and invent a hero that fits the image.
 Reply with JSON only, exactly this shape, all text values in French except "genre", "type" and "facing":
-{"title":"","genre":"one id from the list","pitch":"one or two sentences","story_intro":"2 or 3 short sentences telling the story that sets up the game, shown on the title screen","image_reading":"what you see in the image","player":"look and abilities","enemies":"look and behaviour","collectibles":"","goal":"","core_mechanic":"","progression":"how difficulty and levels evolve","image_usage":"precisely how the source image is drawn in the game","art_direction":"a precise visual style (rendering, shapes, lighting, mood) inspired by the image","background_layers":"description of 3 to 4 parallax layers","palette":["#rrggbb","#rrggbb","#rrggbb","#rrggbb","#rrggbb","#rrggbb"],"orientation":"landscape or portrait","controls_keyboard":"short French sentence","controls_touch":"short French sentence","controls_gamepad":"short French sentence (stick/d-pad, A, B, Start)","sound_mood":"",
+{"title":"","genre":"one id from the list","pitch":"one or two sentences","story_intro":"2 or 3 short sentences telling the story that sets up the game, shown on the title screen","image_reading":"what you see in the image","player":"look and abilities","enemies":"look and behaviour","collectibles":"","goal":"","core_mechanic":"","progression":"how difficulty and levels evolve","image_usage":"precisely how the source image is drawn in the game","art_direction":"a precise visual style (rendering, shapes, lighting, mood) inspired by the image","background_layers":"description of 3 to 4 parallax layers","palette":["#rrggbb","#rrggbb","#rrggbb","#rrggbb","#rrggbb","#rrggbb"],"orientation":"landscape or portrait","controls_keyboard":"short French sentence","controls_touch":"short French sentence","controls_gamepad":"short French sentence: stick or d-pad, A = main action, B = secondary action, Start = pause","sound_mood":"",
 "hero":{"from_image":true,"type":"humanoid|quadruped|bird|fish|cephalopod|insect|serpent|plant|blob|vehicle|robot|object|other","name":"","look":"precise visual description","box":{"x0":0,"y0":0,"x1":1000,"y1":1000},"facing":"left|right|front","parts":[{"name":"","box":{"x0":0,"y0":0,"x1":0,"y1":0},"pivot":{"x":0,"y":0}}],"animations":{"idle":"","move":"","action":"","hurt":""}},
 "npcs":[{"name":"","type":"same type list","look":"","behaviour":"","animations":"how it moves naturally"}],
 "animated_props":[{"name":"","animation":""}]}
@@ -829,9 +829,9 @@ The attached picture is the source image. HARD REQUIREMENTS, follow every one:
 6. HUD always visible while playing: game title (small), score, lives as heart icons, level, best score, plus small pause and mute buttons that work with mouse and touch.
 7. 3 lives, short blinking invincibility after a hit, difficulty that clearly increases with level or time, the first 20 seconds gentle, fair and slightly forgiving hitboxes.
 8. Best score saved in localStorage under a unique key; wrap every storage access in try/catch.
-9. Keyboard listeners on window. Use event.code for movement: ArrowUp/ArrowDown/ArrowLeft/ArrowRight AND KeyW/KeyA/KeyS/KeyD (layout independent, so ZQSD also works on French AZERTY keyboards). Space and Enter = action/start, KeyP or Escape = pause, KeyM = mute. preventDefault on arrows and Space. Keep a pressed-keys map, cleared on window blur.
+9. Keyboard listeners on window. Use event.code for movement: ArrowUp/ArrowDown/ArrowLeft/ArrowRight AND KeyW/KeyA/KeyS/KeyD (layout independent, so ZQSD also works on French AZERTY keyboards). Space and Enter = main action, start and confirm; KeyX (and ShiftLeft) = secondary action or back when the genre needs one; KeyP or Escape = pause and resume while playing, AND start or restart the game from the title and game-over screens; KeyM = mute. Arrow keys must also navigate every menu. Read event.code first, falling back to event.key. preventDefault on arrows and Space. Keep a pressed-keys map, cleared on window blur.
 10. Touch and mouse with Pointer Events. On touch devices (matchMedia('(pointer: coarse)').matches or 'ontouchstart' in window) draw large semi-transparent on-screen controls fitted to the genre (d-pad or left/right zones plus action button, multi-touch), or direct tap/drag control when more natural. Canvas CSS touch-action:none. Mouse must work wherever relevant. A tap or click on the title or game-over screen starts the game.
-10b. Gamepad (Gamepad API, standard mapping) must be fully supported, natively: set window.__GAMEPAD_NATIVE = true at startup; poll navigator.getGamepads() every frame (inside try/catch, it may be unavailable); left stick (dead zone 0.3) AND d-pad (buttons 12-15) move; A (button 0) = main action / jump / shoot / confirm; B (button 1) = secondary action or back; Start (button 9) = start the game from the title and game-over screens, pause and resume while playing; Select (button 8) = mute. Detect new presses with a previous-state map (no auto-repeat on menus). Every menu and screen must be usable with the gamepad only. When a gamepad is connected, show "Manette connectée" briefly and display the gamepad controls on the title screen. Vibrate on hits with gamepad.vibrationActuator.playEffect('dual-rumble', {duration: 120, strongMagnitude: 0.6, weakMagnitude: 0.3}) inside try/catch. Keyboard, mouse, touch and gamepad must all work, and can be mixed at any time.
+10b. Gamepad: the host injects an adapter that turns any gamepad into keyboard events (stick and d-pad = arrows, A = Space, B = KeyX, Start = KeyP, Back = KeyM). NEVER use the Gamepad API yourself (navigator.getGamepads returns nothing to your code): just respect the keyboard contract of point 9 exactly, so the game is fully playable with the gamepad, menus included. When the player is hit, call window.cartoucheRumble && window.cartoucheRumble(0.6, 120) for a vibration. On the title screen, show a controls line for the gamepad: "Manette : stick ou croix, A action, B action 2, Start pause".
 11. Canvas with a fixed logical resolution of ${portrait ? '540x960' : '960x540'}, scaled to fit the window while keeping aspect ratio, centered, sharp on HiDPI screens (devicePixelRatio), updated on resize. html, body: margin 0, overflow hidden, background from the palette. Convert pointer coordinates into logical coordinates correctly.
 12. Main loop with requestAnimationFrame, delta time in seconds clamped to 0.05. Auto-pause when document.hidden.
 13. Sound: synthesize every effect with the Web Audio API (start, jump/shoot, collect, hit, level up, game over) plus a light looping chiptune melody matching "${String(c.sound_mood || '').replace(/"/g, "'")}". Create or resume the AudioContext only on the first user gesture. Wrap all audio code in try/catch. Mute toggle.
@@ -853,7 +853,7 @@ ${html}`;
 }
 function polishPrompt(html, c) {
   return `You are a senior technical artist for HTML5 canvas games. Below is a WORKING game. Rewrite it with dramatically better visuals.
-Keep EXACTLY the same gameplay, rules, controls (keyboard, mouse, touch and gamepad, including window.__GAMEPAD_NATIVE), states, HUD information, sounds, localStorage usage, window.GAME_ASSETS usage, French texts and every technical constraint (single self-contained HTML, no external resources, no runtime errors). Do not remove any feature. Keep the character animation system and make every animation even smoother, more natural and more expressive.
+Keep EXACTLY the same gameplay, rules, controls (keyboard contract, mouse and touch; the gamepad works through the host adapter, so never use the Gamepad API), the window.cartoucheRumble calls, states, HUD information, sounds, localStorage usage, window.GAME_ASSETS usage, French texts and every technical constraint (single self-contained HTML, no external resources, no runtime errors). Do not remove any feature. Keep the character animation system and make every animation even smoother, more natural and more expressive.
 Visual style: ${c.art_direction || ''}. Parallax layers: ${c.background_layers || ''}. Palette: ${(Array.isArray(c.palette) ? c.palette : []).join(', ')}.
 
 ${ART_RULES}
@@ -894,10 +894,23 @@ function injectHead(code, extra) {
   return extra + code;
 }
 function gamepadBridge() {
-  var held = {}, toastEl = null, iv = 0;
-  var KEYS = { ArrowLeft: 'ArrowLeft', ArrowRight: 'ArrowRight', ArrowUp: 'ArrowUp', ArrowDown: 'ArrowDown', Space: ' ', Enter: 'Enter', KeyP: 'p' };
+  var nav = window.navigator, orig = null;
+  try { if (nav.getGamepads) orig = nav.getGamepads.bind(nav); } catch (_) {}
+  if (!orig) return;
+  // Le jeu ne lit jamais la manette lui-même : l'adaptateur est seul maître, donc pas de double appui
+  try { Object.defineProperty(nav, 'getGamepads', { value: function () { return []; }, configurable: true, writable: true }); } catch (_) {}
+  var CODES = { ArrowLeft: ['ArrowLeft', 37], ArrowRight: ['ArrowRight', 39], ArrowUp: ['ArrowUp', 38], ArrowDown: ['ArrowDown', 40],
+    Space: [' ', 32], KeyX: ['x', 88], KeyP: ['p', 80], KeyM: ['m', 77] };
+  var held = {}, toastEl = null, known = false, lastPad = null;
   function send(type, code) {
-    try { (document.activeElement || document.body || document).dispatchEvent(new KeyboardEvent(type, { code: code, key: KEYS[code], bubbles: true, cancelable: true })); } catch (_) {}
+    try {
+      var ev = new KeyboardEvent(type, { code: code, key: CODES[code][0], bubbles: true, cancelable: true });
+      try {
+        Object.defineProperty(ev, 'keyCode', { get: function () { return CODES[code][1]; } });
+        Object.defineProperty(ev, 'which', { get: function () { return CODES[code][1]; } });
+      } catch (_) {}
+      (document.activeElement || document.body || document).dispatchEvent(ev);
+    } catch (_) {}
   }
   function set(code, on) { if (!!held[code] === on) return; held[code] = on; send(on ? 'keydown' : 'keyup', code); }
   function releaseAll() { for (var c in held) if (held[c]) set(c, false); }
@@ -906,27 +919,46 @@ function gamepadBridge() {
       if (!document.body) return;
       if (!toastEl) {
         toastEl = document.createElement('div');
-        toastEl.style.cssText = 'position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:99999;padding:8px 16px;border-radius:999px;background:rgba(0,0,0,.75);color:#fff;font:600 15px system-ui,sans-serif;pointer-events:none;transition:opacity .4s;opacity:0';
+        toastEl.style.cssText = 'position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:99999;padding:8px 16px;border-radius:999px;background:rgba(0,0,0,.78);color:#fff;font:600 15px system-ui,sans-serif;pointer-events:none;transition:opacity .4s;opacity:0;max-width:92vw;text-align:center';
         document.body.appendChild(toastEl);
       }
       toastEl.textContent = msg; toastEl.style.opacity = '1';
-      clearTimeout(toastEl._t); toastEl._t = setTimeout(function () { toastEl.style.opacity = '0'; }, 2500);
+      clearTimeout(toastEl._t); toastEl._t = setTimeout(function () { toastEl.style.opacity = '0'; }, 3500);
     } catch (_) {}
   }
-  function poll() {
-    var pads = [], p = null;
-    try { pads = navigator.getGamepads ? navigator.getGamepads() : []; } catch (_) {}
-    for (var i = 0; i < pads.length; i++) if (pads[i] && pads[i].connected) { p = pads[i]; break; }
-    if (!p || window.__GAMEPAD_NATIVE) { releaseAll(); return; }
-    var b = p.buttons || [], ax = p.axes || [];
-    function pr(n) { return !!(b[n] && (b[n].pressed || b[n].value > 0.5)); }
-    var x = ax[0] || 0, y = ax[1] || 0;
-    set('ArrowLeft', pr(14) || x < -0.45); set('ArrowRight', pr(15) || x > 0.45);
-    set('ArrowUp', pr(12) || y < -0.45); set('ArrowDown', pr(13) || y > 0.45);
-    set('Space', pr(0)); set('Enter', pr(1) || pr(9)); set('KeyP', pr(8));
+  function pick() {
+    var pads = [];
+    try { pads = orig() || []; } catch (_) {}
+    for (var i = 0; i < pads.length; i++) if (pads[i] && pads[i].connected) return pads[i];
+    return null;
   }
-  window.addEventListener('gamepadconnected', function () { toast('🎮 Manette connectée'); if (!iv) iv = setInterval(poll, 16); });
-  window.addEventListener('gamepaddisconnected', function () { toast('Manette déconnectée'); poll(); });
+  function poll() {
+    var p = pick();
+    if (!p) { if (known) { known = false; toast('Manette déconnectée'); } releaseAll(); return; }
+    if (!known) { known = true; toast('🎮 Manette prête : stick ou croix pour bouger, A action, B action 2, Start pause'); }
+    lastPad = p;
+    var b = p.buttons || [], ax = p.axes || [], std = p.mapping === 'standard';
+    function pr(n) { var x = b[n]; return !!(x && (x.pressed || x.value > 0.5)); }
+    var x = ax[0] || 0, y = ax[1] || 0;
+    var left = x < -0.45, right = x > 0.45, up = y < -0.45, down = y > 0.45;
+    if (std || b.length > 15) { up = up || pr(12); down = down || pr(13); left = left || pr(14); right = right || pr(15); }
+    if (!std && ax.length >= 8) { left = left || ax[6] < -0.5; right = right || ax[6] > 0.5; up = up || ax[7] < -0.5; down = down || ax[7] > 0.5; }
+    var start = std ? pr(9) : (pr(7) || pr(9));
+    var back = std ? pr(8) : (pr(6) || pr(8));
+    set('ArrowLeft', left); set('ArrowRight', right); set('ArrowUp', up); set('ArrowDown', down);
+    set('Space', pr(0) || (std && pr(7)));
+    set('KeyX', pr(1) || pr(2));
+    set('KeyP', start); set('KeyM', back);
+  }
+  window.cartoucheRumble = function (strength, ms) {
+    try {
+      var a = lastPad && lastPad.vibrationActuator, s = strength || 0.6;
+      if (a && a.playEffect) a.playEffect('dual-rumble', { duration: ms || 120, strongMagnitude: s, weakMagnitude: s / 2 });
+    } catch (_) {}
+  };
+  window.addEventListener('blur', releaseAll);
+  window.addEventListener('gamepadconnected', poll);
+  setInterval(poll, 16);
 }
 function assetScript(hero) {
   const a = state.asset || { dataURL: '', w: 0, h: 0 };
@@ -1262,7 +1294,7 @@ function renderResult() {
   $('#gMade').textContent = `Fabriqué avec ${v.provider} (${v.model})`;
   $('#gKeys').textContent = c.controls_keyboard || 'Flèches ou ZQSD, Espace pour l’action, P pour la pause, M pour le son.';
   $('#gTouch').textContent = c.controls_touch || 'Boutons à l’écran.';
-  $('#gPad').textContent = c.controls_gamepad || 'Stick ou croix pour bouger, A pour l’action, Start pour lancer ou mettre en pause.';
+  $('#gPad').textContent = c.controls_gamepad || 'Stick ou croix pour bouger, A pour l’action, B pour l’action 2, Start pour la pause.';
   const hero = v.hero, ch = c.hero || {};
   $('#gHero').hidden = !hero && !ch.type;
   $('#gHeroImg').hidden = !hero;
@@ -1338,7 +1370,7 @@ async function downloadZip() {
     `Type de jeu : ${genreLabel(c.genre)}`,
     c.pitch || '', '',
     `Clavier : ${c.controls_keyboard || ''}`,
-    `Manette : ${c.controls_gamepad || 'stick ou croix pour bouger, A pour l’action, Start pour lancer ou mettre en pause'}`,
+    `Manette : ${c.controls_gamepad || 'stick ou croix pour bouger, A pour l’action, B pour l’action 2, Start pour la pause'}`,
     `Tactile : ${c.controls_touch || ''}`, '',
     'Pour jouer : ouvre index.html dans ton navigateur (double-clic).',
     'Aucune installation ni connexion internet n’est nécessaire.', '',
