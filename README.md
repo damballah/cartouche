@@ -1,4 +1,4 @@
-# 🕹️ Cartouche
+<img src="https://github.com/damballah/cartouche/blob/main/Cartouche.png" width="300" alt="Cartouche" />
 
 **Une image entre, un jeu vidéo sort.**
 
